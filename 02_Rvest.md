@@ -1,74 +1,154 @@
 ---
 title: "02 CAP webscraping"
-author: "Fernando Villalba"
+author: "Fernando Villalba Bergado"
 date: "10 de octubre de 2016"
 output: html_document
 ---
 
-# CAPITULO 2. USO DE PAQUETE RSELENIUM.
+# CAPITULO 2. USO DE PAQUETE RVest.
 
-Este programa hace un analisis de datos web, en concreto de los comentarios de un libro, en la web goodread.
-El objetivo es hacer un ejemplo de lo que llaman rasgado web, webscrapping que consisten en obtener datos de internet para despues analizarlos con metodos de data science.
+## INSTALACIÓN
 
-Lo que haremos será reprodicir el estudio de Florent Buisson, que muy amablemente expone en el blog de:
-<http://datascienceplus.com/goodreads-webscraping-and-text-analysis-with-r-part-1/>.
+RVest es un paquete de R que sirve para hacer webscraping, esto es obteer datos de la web en bruto.
 
-Este estudio se divide en 3 partes:
+Para instalarlo :
+```{r}
+install.packages("rvest")
+library(rvest)
+lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
+```
+El código anterior instala el paquete y lo carga.
 
-1.Part 1: Webscraping
-2.Part 2: Exploratory data analysis and sentiment analysis
-3.Part 3: Predictive analytics with machine learning
+## USO
 
-
-##Part 1: Webscraping
-
-Debemos comprobar si las librerias usadas las tenemos instaladas en el sistema,y caso contrario hacer una instalacion de cada una:
+Para extraer el contenido de una web usamos la funcion `read_html()` aportando como argumento una url.
+En este caso la url de la pelicula **Lego** en la base de datos pública de IMDb.
+Esta pagina contiene mucha información y lo que buscamos es obtenes desde R la valoracion de la pelicula:
 
 ```{r}
-install.packages("data.table");
-install.packages("dplyr");
-install.packages("magrittr");
-install.packages("rvest");
-
-install.packages("rJava");
-install.packages("RSelenium");
-
+lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
 ```
-una vez instaladas podemos llamar al primer script:
-```{r }
-library(data.table)   # Required for rbindlist
-library(dplyr)        # Required to use the pipes %>% and some table manipulation commands
-library(magrittr)     # Required to use the pipes %>%
-library(rvest)        # Required for read_html
-library(RSelenium)    # Required for webscraping with javascript
+Con la linea anterior leemos la web y almacenamos en una variable el codigo fuente de página.
 
-# solo una vez
+Lo interesante de rvest(), es que sabiendo CSS y podemos localizar de forma muy precisa los datos que queremos de una web y obtenerlos en R.Usaremos para ello `selectorgadget` que es una extension de CHrome que nos permite obtener los selectores CSS para los elementos de la web que nos interesen.
 
-# checkForServer(); // ESTÁ OBSOLETA
+Siqueremos saber más de `selectorgadget` podemos practicar con el ejemplo `vignette("selectorgadget")`, ya que es un sistema muy bueno para ir directamente a la etiqueta que buscamos.
 
-#....
+Usando `selectorgadget` hemos identificado que la etiqueta "strong span" corresponde con la valoracion de la pelicula.
+para bajar el valor usamos la funcion:
 
-url <- "https://www.goodreads.com/book/show/18619684-the-time-traveler-s-wife#other_reviews"
-book.title <- "The time traveler's wife"
-output.filename <- "GR_TimeTravelersWife.csv"
+1. `html_node()` encuentra el primer nodo que coincide con el selector
+2. `html_text()`  extrae el contenido de la funcion anterior como texto.
+
+La forma de llamar a la funcion es poner la variable que contiene el codigo fuente de la web seguida de %>% y llamar a las dos funciones:
+
+```{r}
+lego_movie %>% 
+  html_node("strong span") %>%
+  html_text() %>%
+  as.numeric()
 ```
-en algunos casos y si hay problemas con firefox, tendremos que hacerlo mediante una instancia del navegador de este modo:
-```{r }
-# startServer() // ESTÁ OBSOLETA
-remDr <- remoteDriver(browserName = "firefox", port = 4444) # instantiate remote driver to connect to Selenium Server
-remDr$open() # open web browser
-remDr$navigate(url) 
+Lo dificil aquí es llegar a la conclusión de que "strong span" es la etiqueta CSS que define el valor de la puntuación.
+Para obtener ese selector, hemos usado
+[selectorgadget](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb), que es un complemento o extension del navegador **Chrome**.
+
+Lo instalamos y su uso es fácil, seleccionamos lo que queremos obtener, y nos resalta en amarillo todo lo que tiene esa etiqueta en la pagina web. Como seguramente hay muchas cosas más de las que deseamos, vamos cliqueando encima de aquellas que no queremos, hasta que en la seleccion amarilla nos quede sólo lo que queremos, y el nombre de la etiqueta que aparece en la ventana es lo que usamos en la funcion html_node().
+
+en Firefox si tenemos firebug, podemos sacar las etiquetas, pero es más complejo.
+
+Otro ejemplo es sacar el listado de actores de la película:
+
+
+```{r}
+lego_movie %>%
+  html_nodes("#titleCast .itemprop span") %>%
+  html_text()
 ```
-problemas con selenium 
-unlink(system.file("bin", package = "RSelenium"), recursive = T)
-checkForServer()
-
-## Part 2: Exploratory data analysis and sentiment analysis
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+o tambien obtenemos lo mismo con esto la etiqueta ".itemprop .itemprop""
+```{r}
+  lego_movie %>%
+  html_nodes(".itemprop .itemprop") %>%
+  html_text()
 ```
 
-## Part 3: Predictive analytics with machine learning.
+Para tener los autores y nombres de los comentarios nos fijamos que se almacenan en una table en la web:
+
+
+```{r}
+lego_movie %>%
+  html_nodes("table") %>%
+  .[[3]] %>%
+  html_table()
+```
+
+Otro ejemplo, obtener el poster de la película:
+
+```{r}
+#Scrape the website for the url of the movie poster
+poster <- lego_movie %>%
+  html_nodes("#title-overview-widget img") %>%
+  html_attr("src")
+poster
+```
+## EJEMPLO CON MILANUNCIOS
+
+Vamos a obtener una tabla con los pisos que se venden en Murcia en milanuncios con las siguientes caracteristicas:
+1. por debajo de 65.000???
+2. por encima de 10.000 ??? para quitar los alquileres
+3. con 3 habitaciones minimo
+4. Cerca de la playa
+
+Hacemos esa busqueda en su web y guardamos la direccion o ruta.
+Lo que buscamos es obtener una tabla con los datos siguientes:
+
+1. Código del anuncio
+2. Titulo
+3. Desrcripcion completa
+4. Precio de venta
+5. ruta de enlace al anuncio
+
+```{r}
+ruta <- "http://www.milanuncios.com/venta-de-viviendas-en-murcia/?desde=10000&hasta=65000&dormd=3&playa=100";
+
+lee_milanuncios<- read_html(ruta);
+
+codigo <- lee_milanuncios %>% html_nodes(".x5") %>% html_text
+titulo <- lee_milanuncios %>% html_nodes(".aditem-detail-title") %>% html_text
+descripcion <- lee_milanuncios %>% html_nodes(".aditem-detail-title") %>% html_text
+precio <- lee_milanuncios %>% html_nodes(".aditem-price") %>% html_text
+url <- lee_milanuncios %>% html_nodes(".aditem-detail-title") %>% html_attr("href")
+url <- paste("http://www.milanuncios.com",url);
+
+#quito un caracter que sobra en en blanco
+url <- gsub(" ","",url, fixed = TRUE)
+
+venta-de-apartamentos-en-lo-pagan-murcia/acogedor-apartamento-playa-de-lo-pagan-171863857.htm
+df <- data.frame(codigo, titulo, descripcion, precio, url);
+df
+```
+Con lo que obtenemos un dataframe con los datos buscados directamente de la web.
+
+Falta por resolver el problema del numeor de paginas, ya que en el navegador esta es solo la primera pagina, y habría que seguir con las paginas siguientes
+
+
+## EJEMPLO 3
+
+```{r}
+movie <- read_html("http://www.imdb.com/title/tt1490017/")
+cast <- html_nodes(movie, "#titleCast span.itemprop")
+A <- html_text(cast)
+Ahtml_name(cast)
+html_attrs(cast)
+html_attr(cast, "class")
+```
+
+## ENLACES
+
+1.[EJEMPLO1](https://blog.rstudio.org/2014/11/24/rvest-easy-web-scraping-with-r/)
+
+
+# LA COSA SE COMPLICA
+
+* [SIGUIENTE](03_Rvest02.md)
+* [ANTERIOR](01_primeros pasos.md)
+* [INDICE](readme.md)

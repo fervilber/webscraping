@@ -124,9 +124,9 @@ $(document).ready(function () {
 
 <div id="introduccion" class="section level1">
 <h1>INTRODUCCIÓN</h1>
-<p>en esta serie de capitulos, voy a poner muchos ejemplos de como hacer webscraping, partiendo de cero.</p>
-<p>Se trata de aprender haciendo, por lo que iré poniendo ejemplo explicados que tracen una ruta de aprendizaje para desarrollar R en el tema de rascado web o busqueda de datos web.</p>
-<p>Cada vez que termine un capitulo actualizaré esta lista con los enlaces a los ficheros correspondientes:</p>
+<p>En esta serie de capítulos, voy a poner muchos ejemplos de cómo hacer <strong>webscraping</strong>, partiendo de cero.</p>
+<p>Se trata de <strong>aprender haciendo</strong>, por lo que iré poniendo ejemplos explicados que tracen una ruta de aprendizaje para desarrollar R en el tema del rascado web o webscraping.</p>
+<p>Cada vez que termine un capítulo actualizaré esta lista con los enlaces a los ficheros correspondientes:</p>
 <ol style="list-style-type: decimal">
 <li><a href="01_primeros%20pasos.md">CAPITULO 1. PRIMEROS PASOS CON WEBSCARPING Y R</a></li>
 <li><a href="02_Rvest.md">CAPITULO 2. BAJAR DATOS</a></li>
@@ -135,9 +135,15 @@ $(document).ready(function () {
 </div>
 <div id="configurar-entorno-de-trabajo-en-rstudio" class="section level1">
 <h1>Configurar entorno de trabajo en RSTUDIO</h1>
-<p>Para hacer este manual de R y webscraping he usado las caracteristicas de edicion de ficheros markdown de RSTUDIO y Git. He enlazado RSTUDIO con GitHub para así practicar el uso de esta web como archivo y gestor de versiones de código.</p>
-<p>Trabajo en modo local en RSTUDIO y cuando tengo cambios importantes los subo directamente con Git. Para que RSTUDIO reconozca el directorio local y lo enlace con GitHub he tenido que poner en GitBAsh el enlace remoto:</p>
-<pre><code>$ git remote add origin https://github.com/fervilber/webscraping.git</code></pre>
+<p>Para hacer este manual de R y webscraping he usado las caracteristicas de edición de ficheros markdown de RSTUDIO y Git. He enlazado RSTUDIO con GitHub para así practicar el uso de esta web como archivo y gestor de versiones de código.</p>
+<p>Trabajo en modo local en RSTUDIO y cuando tengo cambios importantes los subo (push) directamente con RSTUDIOGit.</p>
+<p>Para que RSTUDIO reconozca el directorio local y lo enlace con GitHub he tenido que poner en GitBAsh el enlace remoto, actualizar el STAGE del repo hace un commit general y por ultimo subir todo el repo a GitHub:</p>
+<pre><code>$ git remote add origin https://github.com/fervilber/webscraping.git
+$ git add -A
+$ git commit -m &quot;actualiza todo&quot;
+$ git push -u origin master</code></pre>
+<p>Este es el enlace al repo de GitHub con la <a href="https://github.com/fervilber/webscraping.git">documentacion</a> de este trabajo.</p>
+<p>Hecho esto, RSTUDIO reconoce el enlace y permite ya trabajar desde la ventana de git en RSTUDIO, de forma muy simple.</p>
 <div id="enlaces" class="section level2">
 <h2>ENLACES</h2>
 <ol style="list-style-type: decimal">

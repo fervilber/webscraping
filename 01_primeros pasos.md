@@ -6,7 +6,6 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
 ```
 
 # CAPITULO 1. PRIMEROS PASOS CON WEBSCARPING Y R
@@ -66,18 +65,18 @@ Una vez descargada la web podemos usar la fucnion 'htmlTreeParse()`del paquete X
   library("XML")
 
   # Bajamos una web como archivo
-  web_txt <- getURL("https://stat.ethz.ch/pipermail/r-help/2009-January/date.html", ssl.verifypeer = FALSE)
+  web_txt <- getURL("https://stat.ethz.ch/pipermail/r-help/2009-January/date.html",
+                    ssl.verifypeer = FALSE)
   
   #Analizamos (Parse) el fichero descargado en la variable aterior
   web_txt_analizada <- htmlTreeParse(web_txt)
 
 ```
 
-
 # LA COSA SE COMPLICA
 
-[link](http://www.programmingr.com/)
-[link2](readme2.md)
+* [Siguiente capítulo](02_Rvest.md)
+* [indice](readme.md)
 
 
 
