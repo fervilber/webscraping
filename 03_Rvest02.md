@@ -6,8 +6,11 @@ output: html_document
 ---
 
 # CAPITULO 3. Obtener datos de formularis web
-En este caitulo veremos como obtener datos de web que nos ponen formularios de entrada.
+En este capitulo veremos como obtener datos de web que nos ponen formularios de entrada.
 Tenemos queidentificar los campos y etiqueta de dichosformularios con FireBug o [selectorgadget](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb), antes de empezar.
+
+de momento todos los scritp que he probado no han dado resultado. quizás recquiera mas estudio.
+
 
 
 ##Ejemplo con RCurl
@@ -61,6 +64,36 @@ test <- submit_form(s, f1)
 test;
 
 ```
+---------
+
+library(rvest)
+
+url       <-"http://www.perfectgame.org/"   ## page to spider
+pgsession <-html_session(url)               ## create session
+pgform    <-html_form(pgsession)[[1]]       ## pull form from session
+
+# Note the new variable assignment 
+
+filled_form <- set_values(pgform, `#Header1_HeaderTop1_tbUsername` = "myemail@gmail.com",`#Header1_HeaderTop1_tbPassword` = "mypassword")
+
+submit_form(pgsession,filled_form)
+------------
+
+
+url       <-"http://www.google.es/"   ## page to spider
+pgsession <-html_session(url)               ## create session
+pgform    <-html_form(pgsession)[[1]]       ## pull form from session
+
+# Note the new variable assignment 
+
+filled_form <- set_values(pgform,
+  `ctl00$Header2$HeaderTop1$tbUsername` = "myemail@gmail.com", 
+  `ctl00$Header2$HeaderTop1$tbPassword` = "mypassword")
+
+submit_form(pgsession,filled_form)
+
+
+
 
 Otro ejemplo con rvest:
 

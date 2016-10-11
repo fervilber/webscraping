@@ -115,16 +115,28 @@ lee_milanuncios<- read_html(ruta);
 
 codigo <- lee_milanuncios %>% html_nodes(".x5") %>% html_text
 titulo <- lee_milanuncios %>% html_nodes(".aditem-detail-title") %>% html_text
-descripcion <- lee_milanuncios %>% html_nodes(".aditem-detail-title") %>% html_text
+descripcion <- lee_milanuncios %>% html_nodes(".tx") %>% html_text
+# quito los tabuladores, saltos de linea de la descripcion para no tener errores en el  .csv
+descripcion <- gsub("\t"," ",descripcion, fixed = TRUE);
+descripcion <- gsub("\r"," ",descripcion, fixed = TRUE);
+descripcion <- gsub("\n"," ",descripcion, fixed = TRUE);
+
+
 precio <- lee_milanuncios %>% html_nodes(".aditem-price") %>% html_text
+#precio<-sub("???","",precio);
+#precio<-as.numeric(precio, format="%???");
+
 url <- lee_milanuncios %>% html_nodes(".aditem-detail-title") %>% html_attr("href")
 url <- paste("http://www.milanuncios.com",url);
 
 #quito un caracter que sobra en en blanco
 url <- gsub(" ","",url, fixed = TRUE)
 
-venta-de-apartamentos-en-lo-pagan-murcia/acogedor-apartamento-playa-de-lo-pagan-171863857.htm
 df <- data.frame(codigo, titulo, descripcion, precio, url);
+df
+ruta<- paste(getwd(),"/datosmilanuncios.csv", sep="");
+a<-c("id","codigo","titulo","descripcion","precio","url");
+write.table(df, file = ruta, sep = "\t", col.names = a, qmethod = "double");
 df
 ```
 Con lo que obtenemos un dataframe con los datos buscados directamente de la web.
