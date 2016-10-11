@@ -10,6 +10,7 @@ output: html_document
 ## INSTALACIÓN
 
 RVest es un paquete de R que sirve para hacer webscraping, esto es obteer datos de la web en bruto.
+Rvest es la parte simplifica del paquete httr, mas completo y del que pondremos un ejemplo en capitulos siguientes.
 
 Para instalarlo :
 ```{r}

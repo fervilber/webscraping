@@ -16,7 +16,7 @@ Cada vez que termine un capítulo actualizaré esta lista con los enlaces a los fi
 
 1. [CAPITULO 1. PRIMEROS PASOS CON WEBSCARPING Y R](01_primeros pasos.md)
 2. [CAPITULO 2. BAJAR DATOS](02_Rvest.md)
-3. [CAPITULO 3. BAJAR DATOS](03_Selenium.md)
+3. [CAPITULO 3. EJECUTAR FORMULARIOS](03_Rvest02.md)
 
 
 # Configurar entorno de trabajo en RSTUDIO 
@@ -42,9 +42,10 @@ Hecho esto, RSTUDIO reconoce el enlace y permite ya trabajar desde la ventana de
 
 ## ENLACES
 
-1. http://www.programmingr.com/
-2. https://csgillespie.github.io/efficientR/introduction.html
-3. https://blog.rstudio.org/2014/11/24/rvest-easy-web-scraping-with-r/
+1. [LINK](http://www.programmingr.com/)
+2. [LINK](https://csgillespie.github.io/efficientR/introduction.html)
+3. [LINK](https://blog.rstudio.org/2014/11/24/rvest-easy-web-scraping-with-r/)
+4. [LINK](http://stat4701.github.io/edav/2015/04/02/rvest_tutorial/)
 
 
 
