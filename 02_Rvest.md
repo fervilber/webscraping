@@ -7,7 +7,7 @@ output: html_document
 
 # CAPITULO 2. USO DE PAQUETE RVest.
 
-## INSTALACIÓN
+## INSTALACIÃ“N
 
 RVest es un paquete de R que sirve para hacer webscraping, esto es obteer datos de la web en bruto.
 Rvest es la parte simplifica del paquete httr, mas completo y del que pondremos un ejemplo en capitulos siguientes.
@@ -16,24 +16,23 @@ Para instalarlo :
 ```{r}
 install.packages("rvest")
 library(rvest)
-lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
 ```
-El código anterior instala el paquete y lo carga.
+El cÃ³digo anterior instala el paquete y lo carga.
 
 ## USO
 
 Para extraer el contenido de una web usamos la funcion `read_html()` aportando como argumento una url.
-En este caso la url de la pelicula **Lego** en la base de datos pública de IMDb.
-Esta pagina contiene mucha información y lo que buscamos es obtenes desde R la valoracion de la pelicula:
+En este caso la url de la pelicula **Lego** en la base de datos pÃºblica de IMDb.
+Esta pagina contiene mucha informaciÃ³n y lo que buscamos es obtenes desde R la valoracion de la pelicula:
 
 ```{r}
 lego_movie <- read_html("http://www.imdb.com/title/tt1490017/")
 ```
-Con la linea anterior leemos la web y almacenamos en una variable el codigo fuente de página.
+Con la linea anterior leemos la web y almacenamos en una variable el codigo fuente de pÃ¡gina.
 
 Lo interesante de rvest(), es que sabiendo CSS y podemos localizar de forma muy precisa los datos que queremos de una web y obtenerlos en R.Usaremos para ello `selectorgadget` que es una extension de CHrome que nos permite obtener los selectores CSS para los elementos de la web que nos interesen.
 
-Siqueremos saber más de `selectorgadget` podemos practicar con el ejemplo `vignette("selectorgadget")`, ya que es un sistema muy bueno para ir directamente a la etiqueta que buscamos.
+Siqueremos saber mÃ¡s de `selectorgadget` podemos practicar con el ejemplo `vignette("selectorgadget")`, ya que es un sistema muy bueno para ir directamente a la etiqueta que buscamos.
 
 Usando `selectorgadget` hemos identificado que la etiqueta "strong span" corresponde con la valoracion de la pelicula.
 para bajar el valor usamos la funcion:
@@ -49,15 +48,15 @@ lego_movie %>%
   html_text() %>%
   as.numeric()
 ```
-Lo dificil aquí es llegar a la conclusión de que "strong span" es la etiqueta CSS que define el valor de la puntuación.
+Lo dificil aquÃ­ es llegar a la conclusiÃ³n de que "strong span" es la etiqueta CSS que define el valor de la puntuaciÃ³n.
 Para obtener ese selector, hemos usado
 [selectorgadget](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb), que es un complemento o extension del navegador **Chrome**.
 
-Lo instalamos y su uso es fácil, seleccionamos lo que queremos obtener, y nos resalta en amarillo todo lo que tiene esa etiqueta en la pagina web. Como seguramente hay muchas cosas más de las que deseamos, vamos cliqueando encima de aquellas que no queremos, hasta que en la seleccion amarilla nos quede sólo lo que queremos, y el nombre de la etiqueta que aparece en la ventana es lo que usamos en la funcion html_node().
+Lo instalamos y su uso es fÃ¡cil, seleccionamos lo que queremos obtener, y nos resalta en amarillo todo lo que tiene esa etiqueta en la pagina web. Como seguramente hay muchas cosas mÃ¡s de las que deseamos, vamos cliqueando encima de aquellas que no queremos, hasta que en la seleccion amarilla nos quede sÃ³lo lo que queremos, y el nombre de la etiqueta que aparece en la ventana es lo que usamos en la funcion html_node().
 
-en Firefox si tenemos firebug, podemos sacar las etiquetas, pero es más complejo.
+en Firefox si tenemos firebug, podemos sacar las etiquetas, pero es mÃ¡s complejo.
 
-Otro ejemplo es sacar el listado de actores de la película:
+Otro ejemplo es sacar el listado de actores de la pelÃ­cula:
 
 
 ```{r}
@@ -82,7 +81,7 @@ lego_movie %>%
   html_table()
 ```
 
-Otro ejemplo, obtener el poster de la película:
+Otro ejemplo, obtener el poster de la pelÃ­cula:
 
 ```{r}
 #Scrape the website for the url of the movie poster
@@ -102,7 +101,7 @@ Vamos a obtener una tabla con los pisos que se venden en Murcia en milanuncios c
 Hacemos esa busqueda en su web y guardamos la direccion o ruta.
 Lo que buscamos es obtener una tabla con los datos siguientes:
 
-1. Código del anuncio
+1. CÃ³digo del anuncio
 2. Titulo
 3. Desrcripcion completa
 4. Precio de venta
@@ -141,7 +140,7 @@ df
 ```
 Con lo que obtenemos un dataframe con los datos buscados directamente de la web.
 
-Falta por resolver el problema del numeor de paginas, ya que en el navegador esta es solo la primera pagina, y habría que seguir con las paginas siguientes
+Falta por resolver el problema del numeor de paginas, ya que en el navegador esta es solo la primera pagina, y habrÃ­a que seguir con las paginas siguientes
 
 
 ## EJEMPLO 3
