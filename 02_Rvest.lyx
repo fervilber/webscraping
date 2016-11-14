@@ -1,0 +1,802 @@
+#LyX file created by tex2lyx 2.2
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin C:/R/proyectos/Webscraping/
+\textclass article
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+— title: "02 CAP webscraping" author: "Fernando Villalba Bergado" date: "10 de octubre de 2016" output: htmldocument —
+\end_layout
+
+\begin_layout Standard
+# CAPITULO 2. USO DE PAQUETE RVest.
+\end_layout
+
+\begin_layout Standard
+## INSTALACIÓN
+\end_layout
+
+\begin_layout Standard
+RVest es un paquete de R que sirve para hacer webscraping, esto es obteer datos de la web en bruto. Rvest es la parte simplifica del paquete httr, mas completo y del que pondremos un ejemplo en capitulos siguientes.
+\end_layout
+
+\begin_layout Standard
+Para instalarlo : 
+\begin_inset Quotes eld
+\end_inset
+
+`
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+r
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ install.packages("rvest") library(rvest) legomovie <- readhtml("http://www.imdb.com/title/tt1490017/") 
+\begin_inset Quotes eld
+\end_inset
+
+` El código anterior instala el paquete y lo carga.
+\end_layout
+
+\begin_layout Standard
+## USO
+\end_layout
+
+\begin_layout Standard
+Para extraer el contenido de una web usamos la funcion `readhtml()` aportando como argumento una url. En este caso la url de la pelicula **Lego** en la base de datos pública de IMDb. Esta pagina contiene mucha información y lo que buscamos es obtenes desde R la valoracion de la pelicula:
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Quotes eld
+\end_inset
+
+`
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+r
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ legomovie <- readhtml("http://www.imdb.com/title/tt1490017/") 
+\begin_inset Quotes eld
+\end_inset
+
+` Con la linea anterior leemos la web y almacenamos en una variable el codigo fuente de página.
+\end_layout
+
+\begin_layout Standard
+Lo interesante de rvest(), es que sabiendo CSS y podemos localizar de forma muy precisa los datos que queremos de una web y obtenerlos en R.Usaremos para ello `selectorgadget` que es una extension de CHrome que nos permite obtener los selectores CSS para los elementos de la web que nos interesen.
+\end_layout
+
+\begin_layout Standard
+Siqueremos saber más de `selectorgadget` podemos practicar con el ejemplo `vignette("selectorgadget")`, ya que es un sistema muy bueno para ir directamente a la etiqueta que buscamos.
+\end_layout
+
+\begin_layout Standard
+Usando `selectorgadget` hemos identificado que la etiqueta "strong span" corresponde con la valoracion de la pelicula. para bajar el valor usamos la funcion:
+\end_layout
+
+\begin_layout Standard
+1. `htmlnode()` encuentra el primer nodo que coincide con el selector 2. `htmltext()` extrae el contenido de la funcion anterior como texto.
+\end_layout
+
+\begin_layout Standard
+La forma de llamar a la funcion es poner la variable que contiene el codigo fuente de la web seguida de 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>% y llamar a las dos funciones:
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Quotes eld
+\end_inset
+
+`
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+r
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ legomovie 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>% 
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ htmlnode("strong span") 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ htmltext() 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ as.numeric() 
+\begin_inset Quotes eld
+\end_inset
+
+` Lo dificil aquí es llegar a la conclusión de que "strong span" es la etiqueta CSS que define el valor de la puntuación. Para obtener ese selector, hemos usado [selectorgadget](https://chrome.google.com/webstore/detail/selectorgadget/mhjhnkcfbdhnjickkkdbjoemdmbfginb), que es un complemento o extension del navegador **Chrome**.
+\end_layout
+
+\begin_layout Standard
+Lo instalamos y su uso es fácil, seleccionamos lo que queremos obtener, y nos resalta en amarillo todo lo que tiene esa etiqueta en la pagina web. Como seguramente hay muchas cosas más de las que deseamos, vamos cliqueando encima de aquellas que no queremos, hasta que en la seleccion amarilla nos quede sólo lo que queremos, y el nombre de la etiqueta que aparece en la ventana es lo que usamos en la funcion htmlnode().
+\end_layout
+
+\begin_layout Standard
+en Firefox si tenemos firebug, podemos sacar las etiquetas, pero es más complejo.
+\end_layout
+
+\begin_layout Standard
+Otro ejemplo es sacar el listado de actores de la película:
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Quotes eld
+\end_inset
+
+`
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+r
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ legomovie 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ htmlnodes("#titleCast .itemprop span") 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ htmltext() 
+\begin_inset Quotes eld
+\end_inset
+
+` o tambien obtenemos lo mismo con esto la etiqueta ".itemprop .itemprop"" 
+\begin_inset Quotes eld
+\end_inset
+
+`
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+r
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ legomovie 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ htmlnodes(".itemprop .itemprop") 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ htmltext() 
+\begin_inset Quotes eld
+\end_inset
+
+`
+\end_layout
+
+\begin_layout Standard
+Para tener los autores y nombres de los comentarios nos fijamos que se almacenan en una table en la web:
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Quotes eld
+\end_inset
+
+`
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+r
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ legomovie 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ htmlnodes("table") 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ .
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[[3]]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ htmltable() 
+\begin_inset Quotes eld
+\end_inset
+
+`
+\end_layout
+
+\begin_layout Standard
+Otro ejemplo, obtener el poster de la película:
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Quotes eld
+\end_inset
+
+`
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+r
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ #Scrape the website for the url of the movie poster poster <- legomovie 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ htmlnodes("#title-overview-widget img") 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>%
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ htmlattr("src") poster 
+\begin_inset Quotes eld
+\end_inset
+
+` ## EJEMPLO CON MILANUNCIOS
+\end_layout
+
+\begin_layout Standard
+Vamos a obtener una tabla con los pisos que se venden en Murcia en milanuncios con las siguientes caracteristicas: 1. por debajo de 65.000??? 2. por encima de 10.000 ??? para quitar los alquileres 3. con 3 habitaciones minimo 4. Cerca de la playa
+\end_layout
+
+\begin_layout Standard
+Hacemos esa busqueda en su web y guardamos la direccion o ruta. Lo que buscamos es obtener una tabla con los datos siguientes:
+\end_layout
+
+\begin_layout Standard
+1. Código del anuncio 2. Titulo 3. Desrcripcion completa 4. Precio de venta 5. ruta de enlace al anuncio
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Quotes eld
+\end_inset
+
+`
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+r
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ ruta <- "http://www.milanuncios.com/venta-de-viviendas-en-murcia/?desde=10000&hasta=65000&dormd=3&playa=100";
+\end_layout
+
+\begin_layout Standard
+leemilanuncios<- readhtml(ruta);
+\end_layout
+
+\begin_layout Standard
+codigo <- leemilanuncios 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>% html_nodes(".x5") %>% html_text
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+titulo <- leemilanuncios 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>% html_nodes(".aditem-detail-title") %>% html_text
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+descripcion <- leemilanuncios 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>% html_nodes(".tx") %>% html_text
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+# quito los tabuladores, saltos de linea de la descripcion para no tener errores en el .csv descripcion <- gsub("
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+t{"}
+\end_layout
+
+\end_inset
+
+," ",descripcion, fixed = TRUE); descripcion <- gsub("
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+r{"}
+\end_layout
+
+\end_inset
+
+," ",descripcion, fixed = TRUE); descripcion <- gsub("
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+n
+\end_layout
+
+\end_inset
+
+"," ",descripcion, fixed = TRUE);
+\end_layout
+
+\begin_layout Standard
+precio <- leemilanuncios 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>% html_nodes(".aditem-price") %>% html_text
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+#precio<-sub("???","",precio); #precio<-as.numeric(precio, format="
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%???");
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+url <- leemilanuncios 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%>% html_nodes(".aditem-detail-title") %>% html_attr("href")
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+url <- paste("http://www.milanuncios.com",url);
+\end_layout
+
+\begin_layout Standard
+#quito un caracter que sobra en en blanco url <- gsub(" ","",url, fixed = TRUE)
+\end_layout
+
+\begin_layout Standard
+df <- data.frame(codigo, titulo, descripcion, precio, url); df ruta<- paste(getwd(),"/datosmilanuncios.csv", sep=""); a<-c("id","codigo","titulo","descripcion","precio","url"); write.table(df, file = ruta, sep = "
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+t{"}
+\end_layout
+
+\end_inset
+
+, col.names = a, qmethod = "double"); df 
+\begin_inset Quotes eld
+\end_inset
+
+` Con lo que obtenemos un dataframe con los datos buscados directamente de la web.
+\end_layout
+
+\begin_layout Standard
+Falta por resolver el problema del numeor de paginas, ya que en el navegador esta es solo la primera pagina, y habría que seguir con las paginas siguientes
+\end_layout
+
+\begin_layout Standard
+## EJEMPLO 3
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Quotes eld
+\end_inset
+
+`
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+r
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ movie <- readhtml("http://www.imdb.com/title/tt1490017/") cast <- htmlnodes(movie, "#titleCast span.itemprop") A <- htmltext(cast) Ahtmlname(cast) htmlattrs(cast) htmlattr(cast, "class") 
+\begin_inset Quotes eld
+\end_inset
+
+`
+\end_layout
+
+\begin_layout Standard
+## ENLACES
+\end_layout
+
+\begin_layout Standard
+1.[EJEMPLO1](https://blog.rstudio.org/2014/11/24/rvest-easy-web-scraping-with-r/)
+\end_layout
+
+\begin_layout Standard
+# LA COSA SE COMPLICA
+\end_layout
+
+\begin_layout Standard
+* [SIGUIENTE](03Rvest02.md) * [ANTERIOR](01primeros pasos.md) * [INDICE](readme.md) 
+\end_layout
+
+\end_body
+\end_document

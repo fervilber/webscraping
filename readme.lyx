@@ -1,0 +1,152 @@
+#LyX file created by tex2lyx 2.2
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin C:/R/proyectos/Webscraping/
+\textclass article
+\use_default_options false
+\begin_modules
+knitr
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package none
+\inputencoding auto
+\fontencoding default
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+— title: "webscraping" author: "Fernando Villalba Bergado" date: "10 de octubre de 2016" output: htmldocument language: "Español" —
+\end_layout
+
+\begin_layout Standard
+# INTRODUCCIÓN
+\end_layout
+
+\begin_layout Standard
+En esta serie de capítulos, voy a poner muchos ejemplos de cómo hacer **webscraping**, partiendo de cero.
+\end_layout
+
+\begin_layout Standard
+Se trata de **aprender haciendo**, por lo que iré poniendo ejemplos explicados que tracen una ruta de aprendizaje para desarrollar R en el tema del rascado web o webscraping.
+\end_layout
+
+\begin_layout Standard
+Cada vez que termine un capítulo actualizaré esta lista con los enlaces a los ficheros correspondientes:
+\end_layout
+
+\begin_layout Standard
+1. [CAPITULO 1. PRIMEROS PASOS CON WEBSCARPING Y R](01primeros pasos.md) 2. [CAPITULO 2. BAJAR DATOS](02Rvest.md) 3. [CAPITULO 3. EJECUTAR FORMULARIOS](03Rvest02.md)
+\end_layout
+
+\begin_layout Standard
+# Configurar entorno de trabajo en RSTUDIO
+\end_layout
+
+\begin_layout Standard
+Para hacer este manual de R y webscraping he usado las caracteristicas de edición de ficheros markdown de RSTUDIO y Git. He enlazado RSTUDIO con GitHub para así practicar el uso de esta web como archivo y gestor de versiones de código.
+\end_layout
+
+\begin_layout Standard
+Trabajo en modo local en RSTUDIO y cuando tengo cambios importantes los subo (push) directamente con RSTUDIOGit.
+\end_layout
+
+\begin_layout Standard
+Para que RSTUDIO reconozca el directorio local y lo enlace con GitHub he tenido que poner en GitBAsh el enlace remoto, actualizar el STAGE del repo hace un commit general y por ultimo subir todo el repo a GitHub:
+\end_layout
+
+\begin_layout Standard
+
+\begin_inset Quotes eld
+\end_inset
+
+` 
+\begin_inset Formula $ git remote add origin https://github.com/fervilber/webscraping.git
+$
+\end_inset
+
+ git add -A 
+\begin_inset Formula $ git commit -m "actualiza todo"
+$
+\end_inset
+
+ git push -u origin master 
+\begin_inset Quotes eld
+\end_inset
+
+` Este es el enlace al repo de GitHub con la [documentacion](https://github.com/fervilber/webscraping.git) de este trabajo.
+\end_layout
+
+\begin_layout Standard
+Hecho esto, RSTUDIO reconoce el enlace y permite ya trabajar desde la ventana de git en RSTUDIO, de forma muy simple.
+\end_layout
+
+\begin_layout Standard
+## ENLACES
+\end_layout
+
+\begin_layout Standard
+1. [LINK](http://www.programmingr.com/) 2. [LINK](https://csgillespie.github.io/efficientR/introduction.html) 3. [LINK](https://blog.rstudio.org/2014/11/24/rvest-easy-web-scraping-with-r/) 4. [LINK](http://stat4701.github.io/edav/2015/04/02/rvesttutorial/)
+\end_layout
+
+\end_body
+\end_document

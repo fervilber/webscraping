@@ -121,7 +121,7 @@ descripcion <- gsub("\t"," ",descripcion, fixed = TRUE);
 descripcion <- gsub("\r"," ",descripcion, fixed = TRUE);
 descripcion <- gsub("\n"," ",descripcion, fixed = TRUE);
 
-
+euro <- "\u20AC" # simbolo del euro.
 precio <- lee_milanuncios %>% html_nodes(".aditem-price") %>% html_text
 #precio<-sub("???","",precio);
 #precio<-as.numeric(precio, format="%???");
@@ -135,7 +135,8 @@ url <- gsub(" ","",url, fixed = TRUE)
 df <- data.frame(codigo, titulo, descripcion, precio, url);
 df
 ruta<- paste(getwd(),"/datosmilanuncios.csv", sep="");
-a<-c("id","codigo","titulo","descripcion","precio","url");
+# lo guardamos en una fichero
+a<-c("codigo","titulo","descripcion","precio","url");
 write.table(df, file = ruta, sep = "\t", col.names = a, qmethod = "double");
 df
 ```
