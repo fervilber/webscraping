@@ -2,7 +2,7 @@
 title: "webscraping"
 author: "Fernando Villalba Bergado"
 date: "10 de octubre de 2016"
-output: html_document
+output: rtf_document
 language: "Español"
 ---
 
