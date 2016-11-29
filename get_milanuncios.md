@@ -1,4 +1,4 @@
----
+ ---
 title: "Get_milanuncios"
 author: "Fernando Villalba"
 date: "14 de noviembre de 2016"
@@ -11,13 +11,13 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## OBJETO
 
-Esta rutina obtinene los datos de la webd e milanuncios y da como resultado una data frame grardada como fichero *.csv con los anuncios actuales con con el filtro buscado.
+Esta rutina obtinene los datos de la web de milanuncios y da como resultado una data frame grardada como fichero *.csv con los anuncios actuales con con el filtro buscado.
 
 La web de milanuncios <http://www.milanuncios.com/> es una web de venta de segunda mano por internet. Tiene un portal inmobiliario muy activo por lo que es una buen sitio para buscar casas, parcelas o viviendas a buen precio.
 
 ## COMO FUNCIONA
 Con esta rutina lo que hacemos es pasar una busquda a R.
-La busqueda en milanuncios se hace de forma muy sencialla en la misma direccion o url, añadiendo los parámetros, por ejemplo para buscar parcelas en Cieza que estén entre los 2000 y los 70000 ??? ponemos: 
+La busqueda en milanuncios se hace de forma muy sencialla en la misma direccion o url, aÃ±adiendo los parÃ¡metros, por ejemplo para buscar parcelas en Cieza que estÃ©n entre los 2000 y los 70000 ??? ponemos: 
 <http://www.milanuncios.com/parcelas-en-cieza-murcia/?desde=2000&hasta=70000>
 
 Para buscar en San Pedro del Pinatar casa de 6000 a 70.000, y cerca de la playa con al menos 3 dormitorios y mas de 70 m2 :
@@ -27,10 +27,10 @@ Como vemos la busqueda es muy sencilla de parametrizar en la url.
 
 ## CODIGO
 
-partiendo de una busqueda como la anterior ejecuptamos el código:
+partiendo de una busqueda como la anterior ejecuptamos el cÃ³digo:
 
 ```{r}
-# cargamosla librería rvest para leer la url
+# cargamosla librerÃ­a rvest para leer la url
 library(rvest) 
 
 # Escribimos la ruta de busqueda
@@ -40,7 +40,7 @@ ruta<-"http://www.milanuncios.com/parcelas-en-cieza-murcia/?desde=2000&hasta=700
 source("leemilanuncios.R")
 
 ```
-Este sencillo código nos almacena en data un data frame los datos de cada uno de los inmuebles encontrados, los datos se guardan en un fichero **datosmilanuncios.csv**, que se puede abrir en Excel y que continene todas las paginas de resultados con los valores de código, descripcion, url, precios etc..
+Este sencillo cÃ³digo nos almacena en data un data frame los datos de cada uno de los inmuebles encontrados, los datos se guardan en un fichero **datosmilanuncios.csv**, que se puede abrir en Excel y que continene todas las paginas de resultados con los valores de cÃ³digo, descripcion, url, precios etc..
 
 
 ## CODIGO del fichero de lectura de datos.
@@ -83,7 +83,7 @@ leemilanuncios<- function(ruta){
 }
 
 ```
-el problema es que muchas busquedas contienen más de una pagina de resultados por lo que tenemos que hacer un bucle en cada una de ellas,despues de leer el numero de paginas.
+el problema es que muchas busquedas contienen mÃ¡s de una pagina de resultados por lo que tenemos que hacer un bucle en cada una de ellas,despues de leer el numero de paginas.
 
 
 
@@ -97,9 +97,9 @@ lee_milanuncios<- read_html(ruta);
 #cacula el numero de paginas de la busqueda
   #1. Lee la fila del num de paginas
     n_pag<-lee_milanuncios %>% html_nodes(".adlist-paginator-summary") %>% html_text
-  #2. la convierte en un vector
+  #2. la convierte en un vector..strsplit--> separa todas las letras y da una lista con ellas
     n_pag<-unlist(strsplit(trim(n_pag)," "))
-  #3. Lee el ultimo valor del vector que es el numero de páginas de la busqueda 
+  #3. Lee el ultimo valor del vector que es el numero de pÃ¡ginas de la busqueda 
     num_pag<-n_pag[length(n_pag)]
     if(is.null(num_pag)){num_pag<-0}
     
@@ -117,7 +117,7 @@ for (i in 0:num_pag) {
     ruta1<-paste(ruta, "?pagina=",i, sep = "")
   }
   
-  #Añade cada pagina al df de resultados
+  #AÃ±ade cada pagina al df de resultados
     data<-rbind(leemilanuncios(ruta1),data)
     print(nrow(data))
 }
